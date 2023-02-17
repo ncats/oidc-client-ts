@@ -127,8 +127,8 @@ export class TokenClient {
         const url = await this._metadataService.getTokenEndpoint(false);
         logger.debug("got token endpoint");
 
-        const dpopHeader = await buildDPoPHeader(url, "POST", undefined);
-
+        const dpopHeader = this._settings.enable_dpop ? await buildDPoPHeader(url, "POST", undefined) : undefined;
+        
         const response = await this._jsonService.postForm(url, { body: params, basicAuth, initCredentials: this._settings.fetchRequestCredentials, dpopHeader });
         logger.debug("got response");
 

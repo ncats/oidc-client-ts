@@ -341,6 +341,7 @@ export interface OidcClientSettings {
     clockSkewInSeconds?: number;
     disablePKCE?: boolean;
     display?: string;
+    enable_dpop?: boolean;
     extraQueryParams?: Record<string, string | number | boolean>;
     // (undocumented)
     extraTokenParams?: Record<string, unknown>;
@@ -391,6 +392,8 @@ export class OidcClientSettingsStore {
     readonly disablePKCE: boolean;
     // (undocumented)
     readonly display: string | undefined;
+    // (undocumented)
+    readonly enable_dpop?: boolean;
     // (undocumented)
     readonly extraQueryParams: Record<string, string | number | boolean>;
     // (undocumented)
@@ -1018,6 +1021,8 @@ export interface UserManagerSettings extends OidcClientSettings {
     accessTokenExpiringNotificationTimeInSeconds?: number;
     automaticSilentRenew?: boolean;
     checkSessionIntervalInSeconds?: number;
+    // (undocumented)
+    enable_dpop?: boolean;
     iframeNotifyParentOrigin?: string;
     iframeScriptOrigin?: string;
     includeIdTokenInSilentRenew?: boolean;

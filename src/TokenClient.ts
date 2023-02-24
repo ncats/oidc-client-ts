@@ -5,7 +5,14 @@ import { CryptoUtils, Logger } from "./utils";
 import { JsonService } from "./JsonService";
 import type { MetadataService } from "./MetadataService";
 import type { OidcClientSettingsStore } from "./OidcClientSettings";
-import DPoP, { JWSAlgorithm, generateKeyPair } from "dpop";
+import DPoP, { generateKeyPair } from "dpop";
+
+// Tempeory solution, store dpop keypair in memory
+const DpopKeypair = {
+    publicKey: null,
+    privateKey: null,
+};
+export { DpopKeypair } ;
 
 /**
  * @internal
@@ -65,7 +72,10 @@ const buildDPoPHeader = async (url: string, method: string, token: any) =>{
         undefined,
         token,
     );
-  
+
+    DpopKeypair.publicKey = keypair.publicKey as any;
+    DpopKeypair.privateKey = keypair.privateKey as any;
+    
     return dpop;
 };
 

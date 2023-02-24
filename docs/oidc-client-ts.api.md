@@ -95,6 +95,12 @@ export type CreateSignoutRequestArgs = Omit<SignoutRequestArgs, "url" | "state_d
     state?: unknown;
 };
 
+// @public (undocumented)
+export const DpopKeypair: {
+    publicKey: null;
+    privateKey: null;
+};
+
 // @public
 export class ErrorResponse extends Error {
     constructor(args: {

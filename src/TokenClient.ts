@@ -5,6 +5,14 @@ import { CryptoUtils, Logger } from "./utils";
 import { JsonService } from "./JsonService";
 import type { MetadataService } from "./MetadataService";
 import type { OidcClientSettingsStore } from "./OidcClientSettings";
+import DPoP, { generateKeyPair } from "dpop";
+
+// Tempeory solution, store dpop keypair in memory
+const DpopKeypair = {
+    publicKey: null,
+    privateKey: null,
+};
+export { DpopKeypair } ;
 
 /**
  * @internal
@@ -54,6 +62,22 @@ export interface RevokeArgs {
     token: string;
     token_type_hint?: "access_token" | "refresh_token";
 }
+
+const buildDPoPHeader = async (url: string, method: string, token: any) =>{
+    const keypair = await generateKeyPair("ES256");
+    const dpop = await DPoP(
+        keypair as any,
+        url,
+        method,
+        undefined,
+        token,
+    );
+
+    DpopKeypair.publicKey = keypair.publicKey as any;
+    DpopKeypair.privateKey = keypair.privateKey as any;
+    
+    return dpop;
+};
 
 /**
  * @internal
@@ -113,7 +137,9 @@ export class TokenClient {
         const url = await this._metadataService.getTokenEndpoint(false);
         logger.debug("got token endpoint");
 
-        const response = await this._jsonService.postForm(url, { body: params, basicAuth, initCredentials: this._settings.fetchRequestCredentials });
+        const dpopHeader = this._settings.enable_dpop ? await buildDPoPHeader(url, "POST", undefined) : undefined;
+        
+        const response = await this._jsonService.postForm(url, { body: params, basicAuth, initCredentials: this._settings.fetchRequestCredentials, dpopHeader });
         logger.debug("got response");
 
         return response;

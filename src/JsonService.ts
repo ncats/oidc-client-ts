@@ -25,6 +25,7 @@ export interface PostFormOpts {
     basicAuth?: string;
     timeoutInSeconds?: number;
     initCredentials?: "same-origin" | "include" | "omit";
+    dpopHeader?: string;
 }
 
 /**
@@ -127,12 +128,16 @@ export class JsonService {
         basicAuth,
         timeoutInSeconds,
         initCredentials,
+        dpopHeader,
     }: PostFormOpts): Promise<Record<string, unknown>> {
         const logger = this._logger.create("postForm");
         const headers: HeadersInit = {
             "Accept": this._contentTypes.join(", "),
             "Content-Type": "application/x-www-form-urlencoded",
         };
+        if (dpopHeader) {
+            headers["DPoP"] = dpopHeader;
+        }
         if (basicAuth !== undefined) {
             headers["Authorization"] = "Basic " + basicAuth;
         }

@@ -82,6 +82,7 @@ export interface UserManagerSettings extends OidcClientSettings {
      *  E.g. `userStore: new WebStorageStateStore({ store: window.localStorage })`
      */
     userStore?: WebStorageStateStore;
+    enable_dpop?: boolean;
 }
 
 /**

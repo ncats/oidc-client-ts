@@ -130,6 +130,11 @@ export interface OidcClientSettings {
      * Only scopes in this list will be passed in the token refresh request.
      */
     refreshTokenAllowedScope?: string | undefined;
+
+    /**
+     * enable DPoP
+     */
+    enable_dpop?: boolean;
 }
 
 /**
@@ -154,6 +159,7 @@ export class OidcClientSettingsStore {
     public readonly redirect_uri: string;
     public readonly post_logout_redirect_uri: string | undefined;
     public readonly client_authentication: "client_secret_basic" | "client_secret_post";
+    public readonly enable_dpop?: boolean;
 
     // optional protocol params
     public readonly prompt: string | undefined;
@@ -209,6 +215,7 @@ export class OidcClientSettingsStore {
         // extra query params
         extraQueryParams = {},
         extraTokenParams = {},
+        enable_dpop = false,
     }: OidcClientSettings) {
 
         this.authority = authority;
@@ -272,5 +279,6 @@ export class OidcClientSettingsStore {
 
         this.extraQueryParams = extraQueryParams;
         this.extraTokenParams = extraTokenParams;
+        this.enable_dpop = enable_dpop;
     }
 }

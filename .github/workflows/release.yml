@@ -39,13 +39,13 @@ jobs:
           git config --global user.email 'LabShare@labshare.org'
           git remote set-url origin https://$GITHUB_ACTOR:$GH_TOKEN@github.com/ncats/auth-monorepo
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: npm ci
 
       - name: Release
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: npm run semantic-release
 
   

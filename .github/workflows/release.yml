@@ -18,12 +18,6 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    outputs:
-      published: ${{ steps.changesets.outputs.published == 'true' }}
-
-      # The published packages output from the changsets action is a stringified JSON array.
-      # For example: '[{"name":"@labshare/auth","version":"6.6.0"},{"name":"@labshare/auth-ui","version":"3.3.1"}]'.
-      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
 
     strategy:
       matrix:

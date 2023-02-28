@@ -43,11 +43,6 @@ jobs:
 
       - run: npm ci
 
-      # Changesets action reuses the .npmrc if it already exists. In this case, we
-      # need to change to an NPM token with write access.
-      - run: rm ~/.npmrc
-        shell: "bash"
-
       - name: create and publish versions
         id: changesets
         uses: changesets/action@v1

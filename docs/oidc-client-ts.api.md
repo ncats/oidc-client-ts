@@ -1122,9 +1122,6 @@ export type UserSignedOutCallback = () => Promise<void> | void;
 export type UserUnloadedCallback = () => Promise<void> | void;
 
 // @public (undocumented)
-export const Version: string;
-
-// @public (undocumented)
 export class WebStorageStateStore implements StateStore {
     constructor({ prefix, store, }?: {
         prefix?: string;

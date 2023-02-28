@@ -41,9 +41,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - run: npm install
-        with:
-          npm-token: ${{secrets.NPM_INSTALL_TOKEN}}
+      - run: npm ci
 
       # Changesets action reuses the .npmrc if it already exists. In this case, we
       # need to change to an NPM token with write access.

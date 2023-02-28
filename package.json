@@ -84,6 +84,11 @@
     "branches": [
       "main"
     ],
+    "plugins": [
+      ["@semantic-release/npm", {
+        "npmPublish": false
+      }]
+    ],
     "verifyConditions": [
       "@semantic-release/changelog",
       "@semantic-release/git",

@@ -336,8 +336,10 @@
                 // Completely disable the "ae-extra-release-tag" validation
                 "logLevel": "none",
                 "addToApiReportFile": false
-            }
-
+            },
+            "ae-missing-release-tag": {
+                "logLevel": "none"
+              }
             // "ae-extra-release-tag": {
             //   "logLevel": "warning",
             //   "addToApiReportFile": true

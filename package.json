@@ -33,17 +33,23 @@
     "build-types": "tsc -p tsconfig.build.json && api-extractor run",
     "clean": "git clean -fdX dist lib *.tsbuildinfo",
     "prepack": "npm run build",
-    "test": "tsc && jest",
+    "jest-test": "tsc && jest",
+    "test": "NODE_OPTIONS=--experimental-vm-modules npm run jest-test",
     "typedoc": "typedoc",
     "lint": "eslint --max-warnings=0 --cache .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "ci:publish": "changeset publish"
   },
   "dependencies": {
     "crypto-js": "^4.1.1",
     "dpop": "^1.1.0",
+    "jose": "^4.13.0",
     "jwt-decode": "^3.1.2"
   },
   "devDependencies": {
+    "@changesets/changelog-git": "^0.1.13",
+    "@changesets/cli": "^2.25.0",
+    "@inrupt/jest-jsdom-polyfills": "^1.5.5",
     "@microsoft/api-extractor": "^7.18.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@types/crypto-js": "^4.0.2",

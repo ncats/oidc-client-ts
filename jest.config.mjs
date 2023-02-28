@@ -10,13 +10,10 @@ export default {
     testEnvironment: "jsdom",
     collectCoverage,
     coverageReporters: collectCoverage ? ["lcov"] : ["lcov", "text"],
+    extensionsToTreatAsEsm: ['.ts'],
+    preset: 'ts-jest/presets/default-esm',
     transform: {
-        "^.+\\.tsx?$": [
-            "ts-jest",
-            {
-                // skip ts-jest type checking, incremental compilation with tsc is much faster
-                isolatedModules: true,
-            },
-        ],
+        '^.+\\.(ts|tsx)?$': ['ts-jest', { useESM: true }],
+ 
     },
 };

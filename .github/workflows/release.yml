@@ -1,30 +1,65 @@
 name: Release
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  CI: true
+  REGISTRY: ghcr.io
+
+permissions:
+  contents: write
+  pull-requests: write
+  packages: write
 
 jobs:
-  publish:
+  release:
+    name: Release
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published == 'true' }}
+
+      # The published packages output from the changsets action is a stringified JSON array.
+      # For example: '[{"name":"@labshare/auth","version":"6.6.0"},{"name":"@labshare/auth-ui","version":"3.3.1"}]'.
+      publishedPackages: ${{ steps.changesets.outputs.publishedPackages }}
+
+    strategy:
+      matrix:
+        node-version: [18.x]
 
     steps:
-      - uses: actions/checkout@v3
-      # Setup .npmrc file to publish to npm
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-          cache: npm
-          registry-url: https://registry.npmjs.org
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - run: npm ci
-      - run: npm publish
+      - name: Configure CI Github User
+        run: |
+          git config --global user.name 'LabShare'
+          git config --global user.email 'LabShare@labshare.org'
+          git remote set-url origin https://$GITHUB_ACTOR:$GH_TOKEN@github.com/ncats/auth-monorepo
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - run: npm run typedoc
-
-      - name: Deploy pages
-        uses: peaceiris/actions-gh-pages@v3
+      - run: npm install
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/pages
+          npm-token: ${{secrets.NPM_INSTALL_TOKEN}}
+
+      # Changesets action reuses the .npmrc if it already exists. In this case, we
+      # need to change to an NPM token with write access.
+      - run: rm ~/.npmrc
+        shell: "bash"
+
+      - name: create and publish versions
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          commit: "chore: update versions"
+          title: "chore: update versions"
+          publish: npm ci:publish
+          setupGitUser: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
+
+  

@@ -1,5 +1,6 @@
 import { IFrameWindow } from "./IFrameWindow";
 import type { NavigateParams } from "./IWindow";
+import { jest } from "@jest/globals";
 
 const flushPromises = () => new Promise(process.nextTick);
 
@@ -85,7 +86,11 @@ describe("IFrameWindow", () => {
             });
 
             contentWindowMock.mockReturnValue(null);
-            jest.spyOn(window.document.body, "appendChild").mockImplementation();
+            jest.spyOn(window.document.body, "appendChild").mockImplementation(() => ({
+                contentWindow: contentWindowMock(),
+                style: {},
+                setAttribute: jest.fn(),
+            } as unknown as HTMLIFrameElement));
             jest.spyOn(window.document, "createElement").mockImplementation(() => ({
                 contentWindow: contentWindowMock(),
                 style: {},

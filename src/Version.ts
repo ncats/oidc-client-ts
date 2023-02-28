@@ -1,7 +1,7 @@
 // @ts-expect-error avoid enabling resolveJsonModule to keep build process simple
-import { version } from "../package.json";
+import pkg from "../package.json";
 
 /**
  * @public
  */
-export const Version: string = version;
+export const Version: string = pkg.version;

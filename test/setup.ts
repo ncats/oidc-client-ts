@@ -1,7 +1,15 @@
 import { Log } from "../src";
+import "@testing-library/jest-dom";
+import { TextEncoder } from "util";
+import "@inrupt/jest-jsdom-polyfills";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+import { jest } from "@jest/globals";
 
 beforeAll(() => {
-    globalThis.fetch = jest.fn();
+    global.jest = jest;
+
+    globalThis.fetch = jest.fn() as any;
 
     const unload = () =>
         setTimeout(() => window.dispatchEvent(new Event("unload")), 200);

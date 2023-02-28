@@ -46,7 +46,6 @@ jobs:
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH_TOKEN }}
         run: npm run semantic-release
 
   

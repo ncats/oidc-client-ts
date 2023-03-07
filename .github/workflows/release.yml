@@ -35,10 +35,12 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install and Build 
-        run: npm ci && \
-             npm run build
+      - name: Install 
+        run: npm ci 
 
+      - name: Build 
+        run: npm run build
+             
       - name: Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

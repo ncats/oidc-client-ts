@@ -6,6 +6,7 @@
 /docs/pages/
 
 **/dist/*
+!/dist/esm/
 /dist/esm/*
 !/dist/esm/package.json
 

@@ -1,3 +1,5 @@
+This repository has been archived and is no longer maintained.The code is provided for historical reference and may contain unpatched or unknown vulnerabilities. It should not be used in production systems.
+
 # oidc-client-ts
 
 [![Stable Release](https://img.shields.io/npm/v/oidc-client-ts.svg)](https://npm.im/oidc-client-ts)
@@ -83,4 +85,3 @@ We appreciate feedback and contribution to this repo!
 This project is licensed under the Apache-2.0 license. See the
 [LICENSE](https://github.com/authts/oidc-client-ts/blob/main/LICENSE) file for
 more info.
-
